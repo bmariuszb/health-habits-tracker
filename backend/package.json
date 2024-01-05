@@ -1,0 +1,12 @@
+{
+  "name": "health-habits-tracker",
+  "version": "1.0.0",
+  "description": "Health habits tracker app for Google App Engine",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
