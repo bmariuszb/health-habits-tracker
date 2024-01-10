@@ -36,9 +36,9 @@ resource "google_storage_bucket" "terraform_state" {
 }
 
 resource "google_storage_bucket_object" "src" {
-  name       = var.source_name
-  source     = "../${var.source_name}"
-  bucket     = var.code_bucket
+  name   = var.source_name
+  source = "../${var.source_name}"
+  bucket = var.code_bucket
 }
 
 resource "google_app_engine_standard_app_version" "app" {
@@ -57,4 +57,5 @@ resource "google_app_engine_standard_app_version" "app" {
   lifecycle {
     create_before_destroy = true
   }
+  depends_on = [google_storage_bucket_object.src]
 }
