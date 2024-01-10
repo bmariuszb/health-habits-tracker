@@ -7,24 +7,6 @@ terraform {
   }
 }
 
-variable "project_id" {
-  description = "Project ID"
-  type        = string
-  default     = "divine-display-410518"
-}
-
-variable "source_name" {
-  description = "Name of the source zip file"
-  type        = string
-  default     = "src.zip"
-}
-
-variable "code_bucket" {
-  description = "Name of the cloud storage bucket for source code"
-  type        = string
-  default     = "divine-display-410518.appspot.com"
-}
-
 resource "google_project_service" "crm_api" {
   project            = var.project_id
   service            = "cloudresourcemanager.googleapis.com"
@@ -41,6 +23,13 @@ resource "google_app_engine_application" "app" {
   project       = var.project_id
   location_id   = "us-central"
   database_type = "CLOUD_FIRESTORE"
+}
+
+
+resource "google_storage_bucket" "terraform_state" {
+  name     = var.terraform_state
+  project  = var.project_id
+  location = "US"
 }
 
 resource "google_storage_bucket_object" "src" {
