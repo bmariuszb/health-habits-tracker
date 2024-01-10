@@ -1,3 +1,5 @@
+# System Workflow
+Github action by dispatch (one click) -> step 1 checkout, step 2 terraform -> build App Engine, PubSub, Firestore; sep 3 run nodejs;
 # System Description
 
 The health habits tracking system is designed to help users monitor and manage various aspects of their well-being, including physical activity, meals, goals, and overall daily wellness. Users can input and track specific details such as exercise routines, meal information, and personal goals within the system.
