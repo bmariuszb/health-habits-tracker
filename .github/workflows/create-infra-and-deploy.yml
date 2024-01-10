@@ -13,26 +13,24 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          ref: 'features/gh-action'
 
       - name: Create src.zip archive
         run: zip -FSr src.zip frontend/ backend/
 
-      - name: List all files
-        run: ls -la
+      - name: Change directory to terraform
+        run: cd terraform
 
-          #- name: Change directory to terraform
-          #  run: cd terraform
+      - name: Run tree and pwd
+        run: tree; pwd
 
-          #- name: Set up Terraform
-          #  uses: hashicorp/setup-terraform@v3
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
 
-          #- name: Terraform Init
-          #  run: terraform init
+      - name: Terraform Init
+        run: terraform init
 
-          #- name: Terraform Plan
-          #  run: terraform plan
+      - name: Terraform Plan
+        run: terraform plan
 
-          #- name: Terraform Version
-          #  run: terraform --version
+      - name: Terraform Version
+        run: terraform --version
