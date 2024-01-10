@@ -17,20 +17,17 @@ jobs:
       - name: Create src.zip archive
         run: zip -FSr src.zip frontend/ backend/
 
-      - name: Change directory to terraform
-        run: cd terraform
-
-      - name: Run tree and pwd
-        run: tree; pwd
-
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Init
         run: terraform init
+        working-directory: terraform/
 
       - name: Terraform Plan
         run: terraform plan
+        working-directory: terraform/
 
       - name: Terraform Version
         run: terraform --version
+        working-directory: terraform/
