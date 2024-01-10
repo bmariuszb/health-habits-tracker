@@ -35,6 +35,12 @@ resource "google_storage_bucket" "terraform_state" {
   location = "US"
 }
 
+resource "google_storage_bucket_object" "src" {
+  name       = var.source_name
+  source     = "../${var.source_name}"
+  bucket     = var.code_bucket
+}
+
 resource "google_app_engine_standard_app_version" "app" {
   project    = var.project_id
   version_id = var.version_id
@@ -52,11 +58,3 @@ resource "google_app_engine_standard_app_version" "app" {
     create_before_destroy = true
   }
 }
-
-resource "google_storage_bucket_object" "src" {
-  name       = var.source_name
-  source     = "../${var.source_name}"
-  bucket     = var.code_bucket
-  depends_on = [google_app_engine_standard_app_version.app]
-}
-
