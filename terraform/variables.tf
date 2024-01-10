@@ -21,3 +21,9 @@ variable "terraform_state" {
   type        = string
   default     = "terraform_state_divine-display-410518"
 }
+
+variable "version_id" {
+  description = "Version ID of App Engine Standard Application"
+  type        = string
+  default     = "1"
+}
