@@ -28,7 +28,6 @@ resource "google_app_engine_application" "app" {
   }
 }
 
-
 resource "google_storage_bucket" "terraform_state" {
   name     = var.terraform_state
   project  = var.project_id
@@ -58,4 +57,16 @@ resource "google_app_engine_standard_app_version" "app" {
     create_before_destroy = true
   }
   depends_on = [google_storage_bucket_object.src]
+}
+
+resource "google_app_engine_service_split_traffic" "liveapp" {
+  service         = google_app_engine_standard_app_version.app.service
+  migrate_traffic = true
+  project            = var.project_id
+  split {
+    shard_by = "IP"
+    allocations = {
+      (google_app_engine_standard_app_version.app.version_id) = 1
+    }
+  }
 }
