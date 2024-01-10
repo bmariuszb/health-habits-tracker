@@ -41,10 +41,11 @@ resource "google_storage_bucket_object" "src" {
 }
 
 resource "google_app_engine_standard_app_version" "app" {
-  project    = var.project_id
-  version_id = var.version_id
-  service    = "default"
-  runtime    = "nodejs20"
+  project          = var.project_id
+  version_id       = var.version_id
+  service          = "default"
+  runtime          = "nodejs20"
+  inbound_services = ["INBOUND_SERVICE_WARMUP"]
   entrypoint {
     shell = "cd backend && npm start"
   }
@@ -62,7 +63,7 @@ resource "google_app_engine_standard_app_version" "app" {
 resource "google_app_engine_service_split_traffic" "liveapp" {
   service         = google_app_engine_standard_app_version.app.service
   migrate_traffic = true
-  project            = var.project_id
+  project         = var.project_id
   split {
     shard_by = "IP"
     allocations = {
