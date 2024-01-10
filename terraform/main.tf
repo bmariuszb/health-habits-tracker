@@ -7,10 +7,6 @@ terraform {
   }
 }
 
-provider "google" {
-  credentials = file("credentials.json")
-}
-
 variable "project_id" {
   description = "Project ID"
   type        = string
