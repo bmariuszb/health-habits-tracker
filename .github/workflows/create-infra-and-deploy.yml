@@ -14,20 +14,45 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Create src.zip archive
+      - name: Run npm install
+        run: npm install
+        working-directory: backend/
+
+      - name: Download existing src.zip (continue on failure)
+        uses: actions/download-artifact@v4
+        with:
+          name: src.zip
+        continue-on-error: true
+
+      - name: Update/Create src.zip archive
         run: zip -FSr src.zip frontend/ backend/
 
-      - name: Change directory to terraform
-        run: cd terraform
+      - name: Upload src.zip artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: src.zip
+          path: src.zip
 
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
 
+      - name: Set Timestamp
+        run: echo "TF_TIMESTAMP=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+
       - name: Terraform Init
         run: terraform init
+        working-directory: terraform/
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
 
       - name: Terraform Plan
-        run: terraform plan
+        run: terraform plan -input=false -var="version_id=${TF_TIMESTAMP}"
+        working-directory: terraform/
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
 
-      - name: Terraform Version
-        run: terraform --version
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false -var="version_id=${TF_TIMESTAMP}" -parallelism=1
+        working-directory: terraform/
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 

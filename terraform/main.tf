@@ -7,28 +7,6 @@ terraform {
   }
 }
 
-provider "google" {
-  credentials = file("credentials.json")
-}
-
-variable "project_id" {
-  description = "Project ID"
-  type        = string
-  default     = "divine-display-410518"
-}
-
-variable "source_name" {
-  description = "Name of the source zip file"
-  type        = string
-  default     = "src.zip"
-}
-
-variable "code_bucket" {
-  description = "Name of the cloud storage bucket for source code"
-  type        = string
-  default     = "divine-display-410518.appspot.com"
-}
-
 resource "google_project_service" "crm_api" {
   project            = var.project_id
   service            = "cloudresourcemanager.googleapis.com"
@@ -45,6 +23,15 @@ resource "google_app_engine_application" "app" {
   project       = var.project_id
   location_id   = "us-central"
   database_type = "CLOUD_FIRESTORE"
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "google_storage_bucket" "terraform_state" {
+  name     = var.terraform_state
+  project  = var.project_id
+  location = "US"
 }
 
 resource "google_storage_bucket_object" "src" {
@@ -54,10 +41,11 @@ resource "google_storage_bucket_object" "src" {
 }
 
 resource "google_app_engine_standard_app_version" "app" {
-  project    = var.project_id
-  version_id = "v1"
-  service    = "default"
-  runtime    = "nodejs20"
+  project          = var.project_id
+  version_id       = var.version_id
+  service          = "default"
+  runtime          = "nodejs20"
+  inbound_services = ["INBOUND_SERVICE_WARMUP"]
   entrypoint {
     shell = "cd backend && npm start"
   }
@@ -65,5 +53,26 @@ resource "google_app_engine_standard_app_version" "app" {
     zip {
       source_url = "https://storage.googleapis.com/${var.code_bucket}/${var.source_name}"
     }
+  }
+  lifecycle {
+    create_before_destroy = true
+  }
+  depends_on = [google_storage_bucket_object.src]
+}
+
+resource "google_app_engine_service_split_traffic" "liveapp" {
+  service         = google_app_engine_standard_app_version.app.service
+  migrate_traffic = true
+  project         = var.project_id
+  split {
+    shard_by = "IP"
+    allocations = {
+      (google_app_engine_standard_app_version.app.version_id) = 1
+    }
+  }
+  timeouts {
+    create = "20m"
+    update = "20m"
+    delete = "20m"
   }
 }
