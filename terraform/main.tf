@@ -70,4 +70,9 @@ resource "google_app_engine_service_split_traffic" "liveapp" {
       (google_app_engine_standard_app_version.app.version_id) = 1
     }
   }
+  timeouts {
+    create = "20m"
+    update = "20m"
+    delete = "20m"
+  }
 }
