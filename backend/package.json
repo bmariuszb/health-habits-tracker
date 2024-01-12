@@ -5,10 +5,14 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
+	"dev": "nodemon app.js",
     "gcp-build": ""
   },
   "dependencies": {
     "express": "^4.18.2",
     "firebase-admin": "^12.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
   }
 }
