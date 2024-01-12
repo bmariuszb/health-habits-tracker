@@ -2,7 +2,7 @@
 /terraform/.terraform/
 /terraform/*.tfstate
 /terraform/*.tfstate.*
-/terraform/credentials.json
+/credentials.json
 /container-diagram.drawio
 /src.zip
 /links
