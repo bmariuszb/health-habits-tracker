@@ -27,3 +27,9 @@ variable "version_id" {
   type        = string
   default     = "1"
 }
+
+variable "google_credentials" {
+  description = "Credentials to manage google cloud resources"
+  type        = string
+}
+
