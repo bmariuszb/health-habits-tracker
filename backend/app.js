@@ -4,18 +4,7 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 8080;
 
-app.use(express.static(path.join(__dirname,'..', 'frontend')));
-
-app.get('/', (req, res) => {
-	res.sendFile(path.join(__dirname,'..', 'frontend', 'index.html'));
-});
-
-app.get('/.well-known/acme-challenge/0j2zZUQzFU5sEJAsV4UZbqYypaPajrp54r4hAKgkVso', (req, res) => {
-
-  const challengeContent = '0j2zZUQzFU5sEJAsV4UZbqYypaPajrp54r4hAKgkVso.416cEIN0UiFys98BK2VOgGW9A3hqlU1QgR_ZWZa5TLI';
-
-  res.send(challengeContent);
-});
+app.use(express.static('public'))
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
