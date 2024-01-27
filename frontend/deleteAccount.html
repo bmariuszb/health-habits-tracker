@@ -7,18 +7,12 @@
 		<title>Health habits</title>
 	</head>
 	<body>
-		<h1>Login</h1>
-		<form onsubmit="login(event);">
-			<label for="username">Username:</label>
-			<input type="text" id="username" name="username" required>
-
+		<h1>Delete account</h1>
+		<form id="deleteForm" onsubmit="deleteUser(event)">
 			<label for="password">Password:</label>
 			<input type="password" id="password" name="password" required>
-
-			<button type="submit">Login</button>
+			<button type="submit">Delete</button>
 			<div id="error-container" style="color: red;"></div>
 		</form>
-
-		<p>Don't have an account? <a href="/register">Register</a></p>
 	</body>
 </html>

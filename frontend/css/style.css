@@ -1,0 +1,33 @@
+#manageSessionsForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.sessions-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+.sessions-table th,
+.sessions-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.submit-button {
+    margin-top: 20px;
+}
+
+.active-row {
+    background-color: #a7e6a7; /* Green background color */
+}
+
+.active-session-text {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 12px; /* Adjust the font size as needed */
+}
