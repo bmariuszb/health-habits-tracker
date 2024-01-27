@@ -47,7 +47,10 @@ resource "google_app_engine_standard_app_version" "app" {
   runtime          = "nodejs20"
   inbound_services = ["INBOUND_SERVICE_WARMUP"]
   entrypoint {
-    shell = "cd backend && npm start"
+    shell = "export && cd backend && npm start"
+  }
+  env_variables = {
+    GOOGLE_CREDENTIALS = var.google_credentials
   }
   deployment {
     zip {

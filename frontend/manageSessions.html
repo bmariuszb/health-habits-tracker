@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="/frontend/css/style.css">
+		<script src="/frontend/js/script.js"></script>
+		<title>Health habits</title>
+	</head>
+	<body>
+		<button onclick="window.location.href = '/';">Main menu</button>
+		<h1>Manage Sessions</h1>
+		<div id="error-container" style="color: red;"></div>
+		<form id="manageSessionsForm" onsubmit="deleteSession(event)">
+		</form>
+		<script>
+			document.addEventListener('DOMContentLoaded', renderSessions);
+		</script>
+
+	</body>
+</html>
