@@ -119,7 +119,7 @@ resource "google_cloudfunctions_function" "function" {
   name                  = "email-function"
   project               = var.project_id
   region                = "us-central1"
-  runtime               = "nodejs20" # Replace with the runtime of your function
+  runtime               = "nodejs20"
   source_archive_bucket = google_storage_bucket.cloud_function.name
   source_archive_object = google_storage_bucket_object.cloud_function.name
 
