@@ -19,6 +19,18 @@ resource "google_project_service" "app_engine_api" {
   disable_on_destroy = false
 }
 
+resource "google_project_service" "email_api" {
+  project            = var.project_id
+  service            = "iam.googleapis.com" # Email API service
+  disable_on_destroy = false
+}
+
+resource "google_project_service" "cloud_functions_api" {
+  project            = var.project_id
+  service            = "cloudfunctions.googleapis.com" # Cloud Functions API service
+  disable_on_destroy = false
+}
+
 resource "google_app_engine_application" "app" {
   project       = var.project_id
   location_id   = "us-central"
