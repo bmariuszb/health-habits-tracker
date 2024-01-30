@@ -88,4 +88,5 @@ resource "google_pubsub_topic" "email_notifications_topic" {
 resource "google_pubsub_subscription" "email_subscription" {
   name  = "email-subscription"
   topic = google_pubsub_topic.email_notifications_topic.name
+	project = var.project_id
 }
