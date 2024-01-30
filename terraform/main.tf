@@ -81,14 +81,14 @@ resource "google_app_engine_service_split_traffic" "liveapp" {
 }
 
 resource "google_pubsub_topic" "email_notifications_topic" {
-  name = "email-notifications-topic"
-	project = var.project_id
+  name    = "email-notifications-topic"
+  project = var.project_id
 }
 
 resource "google_pubsub_subscription" "email_subscription" {
-  name  = "email-subscription"
-  topic = google_pubsub_topic.email_notifications_topic.name
-	project = var.project_id
+  name    = "email-subscription"
+  topic   = google_pubsub_topic.email_notifications_topic.name
+  project = var.project_id
 }
 
 resource "google_storage_bucket" "cloud_function" {
@@ -104,11 +104,13 @@ resource "google_storage_bucket_object" "cloud_function" {
 }
 
 resource "google_cloudfunctions_function" "function" {
-  name        = "email-function"
-  runtime     = "nodejs20"  # Replace with the runtime of your function
+  name                  = "email-function"
+  project               = var.project_id
+  region                = "us-central1"
+  runtime               = "nodejs20" # Replace with the runtime of your function
   source_archive_bucket = google_storage_bucket.cloud_function.name
   source_archive_object = google_storage_bucket_object.cloud_function.name
 
-  entry_point = "main"
+  entry_point  = "main"
   trigger_http = true
 }
