@@ -9,9 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@elasticemail/elasticemail-client": "^4.0.23",
     "@google-cloud/pubsub": "^4.1.1",
-    "nodemailer": "^6.9.8",
-    "sendmail": "^1.6.1"
+    "nodemailer": "^6.9.8"
   }
 }

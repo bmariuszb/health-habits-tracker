@@ -38,7 +38,7 @@ jobs:
         working-directory: cloud-function/
 
       - name: Update/Create cloud_function.zip archive
-        run: zip -FSr cloud_function.zip cloud-function/index.js
+        run: zip -FSr cloud_function.zip cloud-function/index.js cloud-function/package.json
 
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
