@@ -90,3 +90,25 @@ resource "google_pubsub_subscription" "email_subscription" {
   topic = google_pubsub_topic.email_notifications_topic.name
 	project = var.project_id
 }
+
+resource "google_storage_bucket" "cloud_function" {
+  name     = "cloud_function"
+  project  = var.project_id
+  location = "US"
+}
+
+resource "google_storage_bucket_object" "cloud_function" {
+  name   = "cloud_function.zip"
+  bucket = google_storage_bucket.cloud_function.name
+  source = "../cloud_function.zip"
+}
+
+resource "google_cloudfunctions_function" "function" {
+  name        = "email-function"
+  runtime     = "nodejs20"  # Replace with the runtime of your function
+  source_archive_bucket = google_storage_bucket.cloud_function.name
+  source_archive_object = google_storage_bucket_object.cloud_function.name
+
+  entry_point = "main"
+  trigger_http = true
+}

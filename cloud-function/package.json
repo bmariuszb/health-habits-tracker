@@ -1,0 +1,14 @@
+{
+  "name": "cloud-function",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+		"start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/pubsub": "^4.1.1"
+  }
+}

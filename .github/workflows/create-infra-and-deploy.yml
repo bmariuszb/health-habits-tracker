@@ -33,6 +33,10 @@ jobs:
           name: src.zip
           path: src.zip
 
+
+      - name: Update/Create cloud_function.zip archive
+        run: zip -FSr cloud_function.zip cloud-function/
+
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
 
