@@ -33,6 +33,9 @@ jobs:
           name: src.zip
           path: src.zip
 
+      - name: Run npm install
+        run: npm install
+        working-directory: cloud-function/
 
       - name: Update/Create cloud_function.zip archive
         run: zip -FSr cloud_function.zip cloud-function/
