@@ -128,6 +128,6 @@ resource "google_cloudfunctions_function" "function" {
 
   event_trigger {
     event_type = "google.pubsub.topic.publish"
-		resource   = "projects/${var.project_id}/topics/4{google_pubsub_topic.email_notifications_topic.name}"
+		resource   = "projects/${var.project_id}/topics/${google_pubsub_topic.email_notifications_topic.name}"
   }
 }
