@@ -1,16 +1,20 @@
-#manageSessionsForm {
+#manageSessionsForm,
+#manageActivitiesForm {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
 }
 
+.activities-table,
 .sessions-table {
     width: 100%;
     margin-top: 20px;
     border-collapse: collapse;
 }
 
+.activities-table th,
+.activities-table td,
 .sessions-table th,
 .sessions-table td {
     border: 1px solid #ddd;

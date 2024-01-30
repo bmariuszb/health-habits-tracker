@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script src="/frontend/js/script.js"></script>
+		<title>Health habits</title>
+	</head>
+	<body>
+		<h1>New activity</h1>
+		<form id="addActivityForm" onsubmit="addActivity(event)">
+			<p>* Not all fields are required</p>
+			<label for="date">Date:</label>
+			<input type="date" id="date" name="date" required><br>
+
+			<label for="name">Name:</label>
+			<input type="text" id="name" name="name" required><br>
+
+			<label for="timeSpent">Time Spent (minutes):</label>
+			<input type="number" id="timeSpent" name="timeSpent"><br>
+
+			<label for="weight">Weight:</label>
+			<input type="number" id="weight" name="weight"><br>
+
+			<label for="distance">Distance:</label>
+			<input type="number" id="distance" name="distance"><br>
+
+			<label for="steps">Steps:</label>
+			<input type="number" id="steps" name="steps"><br>
+
+			<label for="speed">Speed:</label>
+			<input type="number" id="speed" name="speed"><br>
+			<button type="submit">Add</button>
+			<button onclick="window.location.href = '/manage-activities';">Cancel</button>
+			<div id="error-container" style="color: red;"></div>
+		</form>
+	</body>
+</html>

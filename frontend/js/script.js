@@ -120,7 +120,7 @@ async function getSessions() {
 		return [];
 	}
 
-	return json.sessions;
+	return json;
 }
 
 async function renderSessions() {
@@ -236,5 +236,410 @@ async function deleteSession(event) {
 	if (data.error) {
 		const errorContainer = document.getElementById('error-container');
 		errorContainer.textContent = data.error;
+	}
+}
+
+async function getActivities() {
+	let res;
+	try {
+		res = await fetch('/activities', { method: 'GET' });
+	} catch (error) {
+		console.error('Error fetching sessions:', error);
+		return [];
+	}
+
+	const json = await res.json();
+
+	if (!res.ok) {
+		const errorContainer = document.getElementById('error-container');
+		errorContainer.textContent = json.error;
+		return [];
+	}
+
+	return json.activities;
+}
+
+async function renderActivities() {
+	const activities = await getActivities();
+	if (activities.length === 0) {
+		return;
+	}
+
+	// Clear existing activities in the form
+	const form = document.getElementById('manageActivitiesForm');
+	form.innerHTML = '';
+
+	// Create a table
+	const table = document.createElement('table');
+	table.classList.add('activities-table');
+	form.appendChild(table);
+
+	// Create header row
+	const headerRow = table.insertRow();
+	const dateCell = headerRow.insertCell();
+	dateCell.textContent = 'Date';
+	const nameCell = headerRow.insertCell();
+	nameCell.textContent = 'Name';
+	const timeSpentCell = headerRow.insertCell();
+	timeSpentCell.textContent = 'Time Spent';
+	const weightCell = headerRow.insertCell();
+	weightCell.textContent = 'Weight';
+	const distanceCell = headerRow.insertCell();
+	distanceCell.textContent = 'Distance';
+	const stepsCell = headerRow.insertCell();
+	stepsCell.textContent = 'Steps';
+	const speedCell = headerRow.insertCell();
+	speedCell.textContent = 'Speed';
+	const deleteCellHeader = headerRow.insertCell();
+	deleteCellHeader.textContent = 'Delete';
+
+	// Create rows for each activity
+	activities.forEach((activity, index) => {
+		const row = table.insertRow();
+
+		// Date
+		const dateCell = row.insertCell();
+		dateCell.textContent = new Date(activity.date).toLocaleDateString();
+
+		// Name
+		const nameCell = row.insertCell();
+		nameCell.textContent = activity.name;
+
+		// Time Spent
+		const timeSpentCell = row.insertCell();
+		timeSpentCell.textContent = activity.timeSpent;
+
+		// Weight
+		const weightCell = row.insertCell();
+		weightCell.textContent = activity.weight || '';
+
+		// Distance
+		const distanceCell = row.insertCell();
+		distanceCell.textContent = activity.distance || '';
+
+		// Steps
+		const stepsCell = row.insertCell();
+		stepsCell.textContent = activity.steps || '';
+
+		// Speed
+		const speedCell = row.insertCell();
+		speedCell.textContent = activity.speed || '';
+
+		// Delete Button
+		const deleteCell = row.insertCell();
+		const deleteButton = document.createElement('button');
+		deleteButton.textContent = 'Delete';
+		deleteButton.setAttribute("onclick", `deleteActivity(${index});`);
+		deleteCell.appendChild(deleteButton);
+	});
+
+	// Add error container
+	const errorContainer = document.createElement('div');
+	errorContainer.id = 'error-container';
+	errorContainer.style.color = 'red';
+	form.appendChild(errorContainer);
+}
+
+async function deleteActivity(index) {
+	console.log(`Deleting activity at index ${index}`);
+	let res;
+	try {
+		res = await fetch('/activities', {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ index }),
+		});
+	} catch (error) {
+		console.error('Error:', error);
+	}
+
+	if (res.ok) {
+		return window.location.reload();
+	}
+
+}
+
+async function addActivity(event) {
+	event.preventDefault();
+	const errorContainer = document.getElementById('error-container');
+	const formData = new FormData(document.getElementById('addActivityForm'));
+	const data = {};
+
+	// Convert FormData to object
+	formData.forEach((value, key) => {
+		data[key] = value || "";
+	});
+
+	let res;
+	try {
+		res = await fetch('/activities', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(data),
+		});
+	} catch (error) {
+		errorContainer.textContent = error;
+	}
+
+	const json = await res.json();
+	if (json.error) {
+		errorContainer.textContent = json.error;
+	} else if (json.redirectPath) {
+		window.location.href = json.redirectPath;
+	}
+
+}
+
+async function addMeal(event) {
+	event.preventDefault();
+	const errorContainer = document.getElementById('error-container');
+	const formData = new FormData(document.getElementById('addMealForm'));
+	const data = {};
+
+	// Convert FormData to object
+	formData.forEach((value, key) => {
+		data[key] = value || "";
+	});
+
+	let res;
+	try {
+		res = await fetch('/meals', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(data),
+		});
+	} catch (error) {
+		errorContainer.textContent = error;
+	}
+
+	const json = await res.json();
+	if (json.error) {
+		errorContainer.textContent = json.error;
+	} else if (json.redirectPath) {
+		window.location.href = json.redirectPath;
+	}
+}
+
+async function getMeals() {
+	let res;
+	try {
+		res = await fetch('/meals', { method: 'GET' });
+	} catch (error) {
+		console.error('Error fetching sessions:', error);
+		return [];
+	}
+
+	const json = await res.json();
+
+	if (!res.ok) {
+		const errorContainer = document.getElementById('error-container');
+		errorContainer.textContent = json.error;
+		return [];
+	}
+
+	return json.meals;
+}
+
+async function renderMeals() {
+	const meals = await getMeals();
+	if (meals.length === 0) {
+		return;
+	}
+
+	// Clear existing activities in the form
+	const form = document.getElementById('manageMealsForm');
+	form.innerHTML = '';
+
+	// Create a table
+	const table = document.createElement('table');
+	table.classList.add('meals-table');
+	form.appendChild(table);
+
+	// Create header row
+	const headerRow = table.insertRow();
+	const dateCell = headerRow.insertCell();
+	dateCell.textContent = 'Date';
+	const nameCell = headerRow.insertCell();
+	nameCell.textContent = 'Name';
+	const caloriesCell = headerRow.insertCell();
+	caloriesCell.textContent = 'Calories';
+	const deleteCellHeader = headerRow.insertCell();
+	deleteCellHeader.textContent = 'Delete';
+
+	// Create rows for each meal
+	meals.forEach((meal, index) => {
+		const row = table.insertRow();
+
+		// Date
+		const dateCell = row.insertCell();
+		dateCell.textContent = new Date(meal.date).toLocaleDateString();
+
+		// Name
+		const nameCell = row.insertCell();
+		nameCell.textContent = meal.name;
+
+		// Time Spent
+		const caloriesCell = row.insertCell();
+		caloriesCell.textContent = meal.calories;
+
+		// Delete Button
+		const deleteCell = row.insertCell();
+		const deleteButton = document.createElement('button');
+		deleteButton.textContent = 'Delete';
+		deleteButton.setAttribute("onclick", `deleteMeal(${index});`);
+		deleteCell.appendChild(deleteButton);
+	});
+
+	// Add error container
+	const errorContainer = document.createElement('div');
+	errorContainer.id = 'error-container';
+	errorContainer.style.color = 'red';
+	form.appendChild(errorContainer);
+}
+
+async function deleteMeal(mealId) {
+	let res;
+	try {
+		res = await fetch(`/meals/${mealId}`, { method: 'DELETE' });
+	} catch (error) {
+		console.error('Error:', error);
+	}
+
+	if (res.ok) {
+		return window.location.reload();
+	}
+}
+
+async function addGoal(event) {
+	event.preventDefault();
+	const errorContainer = document.getElementById('error-container');
+	const formData = new FormData(document.getElementById('addGoalForm'));
+	const data = {};
+
+	// Convert FormData to object
+	formData.forEach((value, key) => {
+		data[key] = value || "";
+	});
+
+	let res;
+	try {
+		res = await fetch('/goals', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(data),
+		});
+	} catch (error) {
+		errorContainer.textContent = error;
+	}
+
+	const json = await res.json();
+	if (json.error) {
+		errorContainer.textContent = json.error;
+	} else if (json.redirectPath) {
+		window.location.href = json.redirectPath;
+	}
+}
+
+async function getGoals() {
+	let res;
+	try {
+		res = await fetch('/goals', { method: 'GET' });
+	} catch (error) {
+		console.error('Error fetching sessions:', error);
+		return [];
+	}
+
+	const json = await res.json();
+
+	if (!res.ok) {
+		const errorContainer = document.getElementById('error-container');
+		errorContainer.textContent = json.error;
+		return [];
+	}
+
+	return json;
+}
+
+async function renderGoals() {
+	const goals = await getGoals();
+	if (goals.length === 0) {
+		return;
+	}
+
+	// Clear existing activities in the form
+	const form = document.getElementById('manageGoalsForm');
+	form.innerHTML = '';
+
+	// Create a table
+	const table = document.createElement('table');
+	table.classList.add('goals-table');
+	form.appendChild(table);
+
+	// Create header row
+	const headerRow = table.insertRow();
+	const titleCell = headerRow.insertCell();
+	titleCell.textContent = 'Title';
+	const dueDateCell = headerRow.insertCell();
+	dueDateCell.textContent = 'Due date and time';
+	const descriptionCell = headerRow.insertCell();
+	descriptionCell.textContent = 'Description';
+	const statusCellHeader = headerRow.insertCell();
+	statusCellHeader.textContent = 'Status';
+
+	// Create rows for each meal
+	goals.forEach((goal, index) => {
+		const row = table.insertRow();
+
+		// Title
+		const titleCell = row.insertCell();
+		titleCell.textContent = goal.title
+
+		// Due date and time
+		const dueDateCell = row.insertCell();
+		const formattedDueDate = new Date(goal.dueDateTime).toLocaleString(undefined,
+			{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
+		dueDateCell.textContent = formattedDueDate;
+
+		// Description
+		const descriptionCell = row.insertCell();
+		descriptionCell.textContent = goal.description;
+
+		// Status
+		const statusCell = row.insertCell();
+		statusCell.textContent = goals.status;
+
+		// Delete Button
+		const deleteCell = row.insertCell();
+		const deleteButton = document.createElement('button');
+		deleteButton.textContent = 'Delete';
+		deleteButton.setAttribute("onclick", `deleteGoals(${index});`);
+		deleteCell.appendChild(deleteButton);
+	});
+
+	// Add error container
+	const errorContainer = document.createElement('div');
+	errorContainer.id = 'error-container';
+	errorContainer.style.color = 'red';
+	form.appendChild(errorContainer);
+}
+
+async function deleteGoals(goalId) {
+	let res;
+	try {
+		res = await fetch(`/goals/${goalId}`, { method: 'DELETE' });
+	} catch (error) {
+		console.error('Error:', error);
+	}
+
+	if (res.ok) {
+		return window.location.reload();
 	}
 }
