@@ -53,13 +53,7 @@ jobs:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
 
       - name: Terraform Plan
-        run: terraform plan -input=false -var="version_id=${TF_TIMESTAMP}" -var="google_credentials=${GOOGLE_CREDENTIALS}"
-        working-directory: terraform/
-        env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
-
-      - name: Terraform Apply
-        run: terraform apply -auto-approve -input=false -var="version_id=${TF_TIMESTAMP}" -var="google_credentials=${GOOGLE_CREDENTIALS}" -parallelism=1
+        run: terraform destroy -input=false -var="version_id=${TF_TIMESTAMP}" -var="google_credentials=${GOOGLE_CREDENTIALS}"
         working-directory: terraform/
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
