@@ -83,8 +83,3 @@ resource "google_app_engine_service_split_traffic" "liveapp" {
 resource "google_pubsub_topic" "email_notifications_topic" {
   name = "email-notifications-topic"
 }
-
-resource "google_pubsub_subscription" "email_notifications_subscription" {
-  name  = "email-notifications-subscription"
-  topic = google_pubsub_topic.email_notifications_topic.name
-}
