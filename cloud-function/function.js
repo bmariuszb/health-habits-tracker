@@ -1,4 +1,4 @@
-function main () {
+exports.main = () => {
 	const { PubSub } = require('@google-cloud/pubsub');
 	const nodemailer = require('nodemailer');
 
@@ -50,5 +50,3 @@ function main () {
 	const pubSubClient = new PubSub({ projectId, credentials: serviceAccount });
 	listenForMessages('email-subscription');
 }
-
-main();
