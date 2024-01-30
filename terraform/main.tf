@@ -124,7 +124,6 @@ resource "google_cloudfunctions_function" "function" {
   source_archive_object = google_storage_bucket_object.cloud_function.name
 
   entry_point  = "main"
-  trigger_http = false
 
   event_trigger {
     event_type = "google.pubsub.topic.publish"
