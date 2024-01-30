@@ -1,4 +1,4 @@
-exports.main = () => {
+exports.function = () => {
 	const { PubSub } = require('@google-cloud/pubsub');
 	const nodemailer = require('nodemailer');
 
