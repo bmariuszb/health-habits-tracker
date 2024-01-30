@@ -92,7 +92,7 @@ resource "google_pubsub_subscription" "email_subscription" {
 }
 
 resource "google_storage_bucket" "cloud_function" {
-  name     = "cloud_function"
+  name     = "cloud_function_health_habbits"
   project  = var.project_id
   location = "US"
 }
