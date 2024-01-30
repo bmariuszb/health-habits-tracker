@@ -82,4 +82,5 @@ resource "google_app_engine_service_split_traffic" "liveapp" {
 
 resource "google_pubsub_topic" "email_notifications_topic" {
   name = "email-notifications-topic"
+	project = var.project_id
 }
