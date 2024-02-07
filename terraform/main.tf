@@ -35,9 +35,6 @@ resource "google_app_engine_application" "app" {
   project       = var.project_id
   location_id   = "us-central"
   database_type = "CLOUD_FIRESTORE"
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "google_storage_bucket" "terraform_state" {
